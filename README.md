@@ -13,4 +13,4 @@
    - Gọi webservice và trình bày thông tin: Not sure
    - Trình bày được kết quả (chi tiết/lịch sử): not sure
 4. Daily Selfie
-   - Updating...
+   - Nah, GUI xấu vl
