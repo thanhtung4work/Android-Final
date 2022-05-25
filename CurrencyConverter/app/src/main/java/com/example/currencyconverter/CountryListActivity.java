@@ -1,19 +1,12 @@
 package com.example.currencyconverter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -57,31 +50,6 @@ public class CountryListActivity extends AppCompatActivity {
         myTask.execute();
     }
 
-    // get json from url
-    private static String jsonFromURL(String strURL){
-        StringBuilder sb = new StringBuilder();
-        URLConnection urlConn;
-        try{
-            // url object
-            URL url = new URL(strURL);
-
-            // open connection
-            urlConn = url.openConnection();
-
-            // wrap connection in a buffer
-            // InputStreamReader inputStreamReader = new InputStreamReader(urlConn.getInputStream());
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
-
-            String inputLine;
-            while((inputLine = bufferedReader.readLine()) != null){
-                sb.append(inputLine + "\n");
-            }
-            bufferedReader.close();
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
 
     private ArrayList<Country> readXmlFeed() throws Exception{
         if(countries != null) return countries;
@@ -94,42 +62,23 @@ public class CountryListActivity extends AppCompatActivity {
     }
 
     // get country's currency with async task
-    public class CurrencyGetTask extends AsyncTask<Void, Void, String>{
-
-        private final String USERNAME = "tung_worldwide";
-        private final String strURL = "http://api.geonames.org/countryInfoJSON?formatted=true&username=" + USERNAME;
-
+    public class CurrencyGetTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected String doInBackground(Void... voids) {
-            return jsonFromURL(strURL);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+        protected Void doInBackground(Void... voids) {
             try {
                 readXmlFeed();
-//                JSONObject root = new JSONObject(s);
-//                JSONArray array = root.getJSONArray("geonames");
-//
-//                for(int i = 0; i < array.length(); i++){
-//                    JSONObject countryJSON = array.getJSONObject(i);
-//                    Country c = new Country();
-//                    c.currency = countryJSON.getString("currencyCode");
-//                    c.name = countryJSON.getString("countryName");
-//                    if(c.name.equals("Antarctica")) continue;
-//
-//                    countries.add(c);
-//                    Log.d("Country", c.name);
-//                    Log.d("Currency", c.currency);
-//                }
 
-
-                MyAdapter myAdapter = new MyAdapter(countries, getApplicationContext());
-                myList.setAdapter(myAdapter);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            MyAdapter myAdapter = new MyAdapter(countries, getApplicationContext());
+            myList.setAdapter(myAdapter);
         }
     }
 

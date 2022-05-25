@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             learnMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String facebookUrl = "https://github.com/thanhtung4work";
+                    String facebookUrl = "https://github.com/thanhtung4work/Android-Final";
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse(facebookUrl));
                     startActivity(intent);
